@@ -1,0 +1,29 @@
+Ransom Note
+
+Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+Each letter in magazine can only be used once in ransomNote.
+
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        int n = ransomNote.size();
+        int m = magazine.size();
+        if(n>m) return false;
+
+        unordered_map<char, int> mMag;
+        for(char ch: magazine){
+            mMag[ch]++;
+        }
+
+        for(int i=0; i<n; i++){
+            char ch = ransomNote[i];
+            if(mMag.find(ch) != mMag.end()){
+                mMag[ch]--;
+                if(mMag[ch] == 0) mMag.erase(ch);
+            }
+            else return false;
+        }
+        return true;
+    }
+};
