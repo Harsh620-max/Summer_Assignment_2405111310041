@@ -1,0 +1,40 @@
+Next Greater Element I
+
+
+The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
+For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
+
+
+
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& arr, vector<int>& brr) {
+        int m = arr.size();
+        int n = brr.size();
+
+        unordered_map<int, int> mp;
+        stack<int> st;
+
+        mp[brr[n-1]] = -1;
+        st.push(brr[n-1]);
+        for(int i=n-2; i>=0; i--){
+            // pop
+            while(!st.empty() && st.top()<=brr[i]) st.pop();
+
+            // marking ans
+            if(st.empty()) mp[brr[i]] = -1;
+            else mp[brr[i]] = st.top();
+
+            //push
+            st.push(brr[i]);
+        }
+
+        vector<int> ans(m);
+        for(int i=0; i<m; i++){
+            ans[i] = mp[arr[i]];
+        }
+        return ans;
+    }
+};
