@@ -1,0 +1,39 @@
+Permutation in String
+
+
+Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
+In other words, return true if one of s1's permutations is the substring of s2.
+
+
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int n = s1.size();
+        int k = s2.size();
+
+        if (n > k) return false;
+
+        vector<int> window(26,0);
+        vector<int> slide(26,0);
+
+        for(char ch: s1){
+            window[ch - 'a']++;
+        }
+
+        for(int i=0; i<n; i++){
+            char ch = s2[i];
+            slide[ch - 'a']++;
+        }
+
+        if(window == slide) return true;
+        
+        for(int i=n; i<k; i++){
+            
+            slide[s2[i-n] - 'a']--;
+            slide[s2[i] - 'a']++;
+            if(window == slide) return true;
+
+        }
+        return false;
+    }
+};
